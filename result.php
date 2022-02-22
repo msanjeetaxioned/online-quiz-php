@@ -3,6 +3,12 @@
     if(!isset($_COOKIE[EMAIL])) {
         header('Location: ' . URL . '/login.php');
     }
+    else {
+        if(!isset($_COOKIE[RESULT])) {
+            header('Location: ' . URL . '/quiz.php');
+            setcookie(RESULT, "", time() - 300, "/", "", 0);
+        }
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -18,7 +24,6 @@
 </head>
 <body>
     <?php
-    require('utility/base-url.php');
     if(isset($_GET["logout"])) {
         setcookie(EMAIL, "", time() - 300, "/", "", 0);
         header('Location: ' . URL . '/login.php');

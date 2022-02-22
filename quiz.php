@@ -43,8 +43,9 @@
 
         if(isset($_POST)) {
             if($quiz1->submitQuiz()) {
+                setcookie(RESULT, true, time() + 24 * 60 * 60, "/", "", 0);
                 header('Location: ' . URL . '/result.php');
-            }   
+            }
         }
 
         echo "<h2>Total Marks: " . $quiz1->totalMarks . "</h2>
