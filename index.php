@@ -30,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <header>
         <div class="wrapper">
             <h1>
-                <a href="#" title="The Mouse Store">The Mouse Store</a>
+                <a href="#" title="Online Quiz">Online Quiz</a>
             </h1>
         </div>
     </header>
