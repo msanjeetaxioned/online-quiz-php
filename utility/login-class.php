@@ -22,7 +22,7 @@ class Login
             else {
                 setcookie(EMAIL, self::$loginEmail, 0, "/", "", 0);
             }
-            header('Location: ' . URL . '/user1.php');
+            header('Location: ' . URL . '/quiz.php');
         }
     }
 }

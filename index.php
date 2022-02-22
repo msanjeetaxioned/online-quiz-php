@@ -1,7 +1,7 @@
 <?php
 require('utility/base-url.php');
 if(isset($_COOKIE[EMAIL])) {
-    header('Location: ' . URL . '/quiz1.php');
+    header('Location: ' . URL . '/quiz.php');
 }
 ?>
 <!DOCTYPE html>
