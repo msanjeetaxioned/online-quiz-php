@@ -19,7 +19,43 @@ header {
     background: #D9EEE1;
 }
 
-header > .wrapper { display: flex; }
+header > .wrapper { 
+    display: flex;
+    justify-content: space-between;
+}
+
+
+.control-buttons { 
+    display: flex;
+    align-items: center;
+}
+
+.user-email { margin-right: 15px; }
+
+.cart > span {
+    width: 26px;
+    height: 26px;
+    padding: 5px 0;
+    border-radius: 50%;
+    display: inline-block;
+    background: rgba(255, 0, 0, 1);
+    text-align: center;
+}
+
+.control-buttons > a {
+    display: inline-block;
+    font-size: 0;
+}
+
+.control-buttons > a::after {
+    content: "\f2f5";
+    color: #04AA6D;
+    font-family: "Font Awesome 5 Free";
+    font-size: 20px;
+    font-weight: 900;
+}
+
+.control-buttons > a:hover::after { color: #059862; }
 
 header h1 > a {
     padding: 15px 0;

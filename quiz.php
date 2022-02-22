@@ -1,3 +1,9 @@
+<?php
+    require('utility/base-url.php');
+    if(!isset($_COOKIE[EMAIL])) {
+        header('Location: ' . URL . '/login.php');
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,7 +18,6 @@
 </head>
 <body>
     <?php
-    require('utility/base-url.php');
     if(isset($_GET["logout"])) {
         setcookie(EMAIL, "", time() - 300, "/", "", 0);
         header('Location: ' . URL . '/login.php');
@@ -25,7 +30,7 @@
             </h1>
             <div class="control-buttons">
                 <span title="Logout" class="user-email"><?php echo isset($_COOKIE[EMAIL]) ? "Welcome! " . $_COOKIE[EMAIL] : ""; ?></span>
-                <a href='<?php echo constant('URL').'/home.php?logout=true'?>' title="Logout">Logout</a>
+                <a href='<?php echo constant('URL').'/quiz.php?logout=true'?>' title="Logout">Logout</a>
             </div>
         </div>
     </header>
@@ -36,9 +41,15 @@
         $quiz1 = new Quiz(1);
         $quiz1->getQuizQuestionsFromDB();
 
+        if(isset($_POST)) {
+            if($quiz1->submitQuiz()) {
+                header('Location: ' . URL . '/result.php');
+            }   
+        }
+
         echo "<h2>Total Marks: " . $quiz1->totalMarks . "</h2>
             <p class='note'>Note: Each Question is for 1 Mark. All Questions are Compulsary.</p>
-            <form action='' method='post'>
+            <form action='" . htmlspecialchars($_SERVER['PHP_SELF']) . "' method='post'>
                 <ul class='quiz'>
                 " . $quiz1->displayQuizQuestions() . "
                 </ul>
@@ -48,5 +59,11 @@
             </form>";
         ?>
     <div>
+    <script>
+    // To prevent Page Refresh from Submitting Form
+    if (window.history.replaceState) {
+        window.history.replaceState(null, null, window.location.href);
+    }
+    </script>
 </body>
 </html>

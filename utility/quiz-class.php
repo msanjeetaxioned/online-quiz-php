@@ -7,6 +7,7 @@ class Quiz
     public $questionsData = array();
     public $totalQuestions;
     public $totalMarks;
+    public $answers = array();
 
     public function Quiz($quizId)
     {
@@ -76,5 +77,42 @@ class Quiz
             ";
         }
         return $data;
+    }
+
+    public function submitQuiz() {
+        $allQuestionsAttempted = false;
+        
+        for($i = 0; $i < count($this->questionsData); $i++) {
+            if(!isset($_POST['question'.($i+1)])) {
+                return $allQuestionsAttempted;
+            }
+            else {
+                $this->answers[$i] = $_POST['question'.($i+1)];
+            }
+        }
+        $allQuestionsAttempted = true;
+
+        DatabaseConnection::startConnection();
+
+        // Get number of Records in Score Table to set ID for new record
+        $stmtSelect = DatabaseConnection::$conn->prepare("SELECT * FROM score;");
+        $stmtSelect->execute();
+        $stmtSelect->store_result();
+        $rows = $stmtSelect->num_rows;
+        $rows++;
+        $stmtSelect->close();
+
+        $stmt = DatabaseConnection::$conn->prepare("INSERT INTO score (id, user_email, quiz_id, responses) VALUES (?,?,?,?);");
+        $id = $this->id;
+        $answers = $this->answers;
+        $answers = implode(", ", $answers);
+
+        $stmt->bind_param("isis", $rows, $_COOKIE[EMAIL], $id, $answers);
+
+        $stmt->execute();
+        $stmt->close();
+        DatabaseConnection::closeDBConnection();
+
+        return $allQuestionsAttempted;
     }
 }
