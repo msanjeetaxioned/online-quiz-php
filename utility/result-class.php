@@ -70,5 +70,36 @@ class Result
         $stmt->close();
         DatabaseConnection::closeDBConnection();
     }
+
+    public function getScoreFromDB($quizID, $userEmail)
+    {
+        DatabaseConnection::startConnection();
+        $stmt = DatabaseConnection::$conn->prepare("SELECT * FROM score WHERE quiz_id=? AND user_email=?;");
+        $stmt->bind_param("is", $quizID, $userEmail);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+        $result = $result->fetch_assoc();
+
+        if($result['score'] != "" || $result['score'] != NULL) {
+            $this->scoreObtainedOfQuiz = $result['score'];
+        } else {
+            return false;
+        }
+
+        $stmt->close();
+
+        $stmt = DatabaseConnection::$conn->prepare("SELECT total_marks FROM quiz WHERE id=?;");
+        $stmt->bind_param("i", $quizID);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $result = $result->fetch_assoc();
+        $this->totalScoreOfQuiz = $result['total_marks'];
+        $stmt->close();
+
+        DatabaseConnection::closeDBConnection();
+
+        return true;
+    }
 }
 ?>

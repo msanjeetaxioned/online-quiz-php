@@ -2,7 +2,8 @@
 
 class Leaderboard
 {
-    public function displayLeaderboard($quizID) {
+    public function displayLeaderboard($quizID)
+    {
         DatabaseConnection::startConnection();
         $stmt = DatabaseConnection::$conn->prepare("SELECT user_email, score FROM score WHERE quiz_id=? ORDER BY score DESC;");
         $stmt->bind_param("i", $quizID);

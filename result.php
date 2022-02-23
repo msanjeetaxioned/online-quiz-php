@@ -44,12 +44,18 @@
         <h2>Quiz Result</h2>
         <?php
         $quizID = $_COOKIE[RESULT];
+        $userEmail = $_COOKIE[EMAIL];
         require('utility/db-connection.php');
         require('utility/result-class.php');
         $result = new Result();
-        $result->getResponsesAndCorrectAnswersFromDB($quizID);
-        $result->calculateScoreAndInsertInDB();
-        echo "<p class='score'>Your Score: " . $result->scoreObtainedOfQuiz . " / " . $result->totalScoreOfQuiz . "</p>";
+
+        if($result->getScoreFromDB($quizID, $userEmail)) {
+            echo "<p class='score'>Your Score: " . $result->scoreObtainedOfQuiz . " / " . $result->totalScoreOfQuiz . "</p>";
+        } else {
+            $result->getResponsesAndCorrectAnswersFromDB($quizID);
+            $result->calculateScoreAndInsertInDB();
+            echo "<p class='score'>Your Score: " . $result->scoreObtainedOfQuiz . " / " . $result->totalScoreOfQuiz . "</p>";
+        }
         ?>
         <div class="login-div">
             <h2>View Quiz Leaderboards!</h2>
