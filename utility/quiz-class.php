@@ -116,4 +116,19 @@ class Quiz
 
         return $allQuestionsAttempted;
     }
+
+    public function checkIfUserHasAlreadyAttemptedQuiz($userEmail) {
+        DatabaseConnection::startConnection();
+        $stmtSelect = DatabaseConnection::$conn->prepare("SELECT * FROM score where user_email=?;");
+        $stmtSelect->bind_param("s", $userEmail);
+        $stmtSelect->execute();
+        $stmtSelect->store_result();
+        $rows = $stmtSelect->num_rows;
+        $stmtSelect->close();
+
+        if($rows >= 1) {
+            return true;
+        }
+        return false;
+    }
 }

@@ -50,7 +50,21 @@
             }
         }
 
-        echo "<h2>Total Marks: " . $quiz1->totalMarks . "</h2>
+        if($quiz1->checkIfUserHasAlreadyAttemptedQuiz($_COOKIE[EMAIL])) {
+            echo "<p class='note-attempted'>*Note: You have already attempted this Quiz! Only Viewing Is Allowed Now.</p>
+            <h2>Total Marks: " . $quiz1->totalMarks . "</h2>
+            <p class='note'>Note: Each Question is for 1 Mark. All Questions are Compulsary.</p>
+            <form action='" . htmlspecialchars($_SERVER['PHP_SELF']) . "' method='post'>
+                <ul class='quiz'>
+                " . $quiz1->displayQuizQuestions() . "
+                </ul>
+            </form>
+            <div class='login-div'>
+            <h2>View Quiz Leaderboards!</h2>
+            <a href='" . constant('URL'). "/leaderboards.php' title='Leaderboards'>Leaderboards</a>
+            </div>";
+        } else {
+            echo "<h2>Total Marks: " . $quiz1->totalMarks . "</h2>
             <p class='note'>Note: Each Question is for 1 Mark. All Questions are Compulsary.</p>
             <form action='" . htmlspecialchars($_SERVER['PHP_SELF']) . "' method='post'>
                 <ul class='quiz'>
@@ -60,6 +74,7 @@
                     <button type='submit'>submit</button>
                 </div>
             </form>";
+        }
         ?>
     <div>
     <script>

@@ -12,9 +12,11 @@ class Result
     public function getResponsesAndCorrectAnswersFromDB($quizID)
     {
         $this->quizID = $quizID;
+        $userEmail = $_COOKIE[EMAIL];
+
         DatabaseConnection::startConnection();
-        $stmt = DatabaseConnection::$conn->prepare("SELECT * FROM score WHERE quiz_id=?;");
-        $stmt->bind_param("i", $quizID);
+        $stmt = DatabaseConnection::$conn->prepare("SELECT * FROM score WHERE quiz_id=? AND user_email=?;");
+        $stmt->bind_param("is", $quizID, $userEmail);
         $stmt->execute();
         $result = $stmt->get_result();
         $result = $result->fetch_assoc();

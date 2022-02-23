@@ -51,6 +51,10 @@
         $result->calculateScoreAndInsertInDB();
         echo "<p class='score'>Your Score: " . $result->scoreObtainedOfQuiz . " / " . $result->totalScoreOfQuiz . "</p>";
         ?>
+        <div class="login-div">
+            <h2>View Quiz Leaderboards!</h2>
+            <a href="<?php echo constant('URL').'/leaderboards.php'?>" title="Leaderboards">Leaderboards</a>
+        </div>
     </div>
     <script>
     // To prevent Page Refresh from Submitting Form
