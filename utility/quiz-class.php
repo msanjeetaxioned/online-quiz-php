@@ -79,7 +79,8 @@ class Quiz
         return $data;
     }
 
-    public function submitQuiz() {
+    public function submitQuiz() 
+    {
         $allQuestionsAttempted = false;
         
         for($i = 0; $i < count($this->questionsData); $i++) {

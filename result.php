@@ -6,7 +6,7 @@
     else {
         if(!isset($_COOKIE[RESULT])) {
             header('Location: ' . URL . '/quiz.php');
-            setcookie(RESULT, "", time() - 300, "/", "", 0);
+            // setcookie(RESULT, "", time() - 300, "/", "", 0);
         }
     }
 ?>
@@ -42,6 +42,21 @@
     </header>
     <div class='wrapper'>
         <h2>Quiz Result</h2>
+        <?php
+        $quizID = $_COOKIE[RESULT];
+        require('utility/db-connection.php');
+        require('utility/result-class.php');
+        $result = new Result();
+        $result->getResponsesAndCorrectAnswersFromDB($quizID);
+        $result->calculateScoreAndInsertInDB();
+        echo "<p class='score'>Your Score: " . $result->scoreObtainedOfQuiz . " / " . $result->totalScoreOfQuiz . "</p>";
+        ?>
     </div>
+    <script>
+    // To prevent Page Refresh from Submitting Form
+    if (window.history.replaceState) {
+        window.history.replaceState(null, null, window.location.href);
+    }
+    </script>
 </body>
 </html>

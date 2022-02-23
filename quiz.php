@@ -38,12 +38,14 @@
         <?php
         require('utility/db-connection.php');
         require('utility/quiz-class.php');
-        $quiz1 = new Quiz(1);
+        $quizID = 1;
+
+        $quiz1 = new Quiz($quizID);
         $quiz1->getQuizQuestionsFromDB();
 
         if(isset($_POST)) {
             if($quiz1->submitQuiz()) {
-                setcookie(RESULT, true, time() + 24 * 60 * 60, "/", "", 0);
+                setcookie(RESULT, $quizID, time() + 24 * 60 * 60, "/", "", 0);
                 header('Location: ' . URL . '/result.php');
             }
         }
